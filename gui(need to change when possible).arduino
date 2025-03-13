@@ -1,0 +1,119 @@
+#include <LiquidCrystal.h>
+ 
+// LCD pin configuration (RS, E, D4, D5, D6, D7)
+
+LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
+ 
+void setup() {
+
+  lcd.begin(16, 2);  // Initialize 16x2 LCD
+
+  lcd.print("Waiting for Input...");
+
+  Serial.begin(9600); // Start serial communication
+
+}
+ 
+void loop() {
+
+  if (Serial.available() > 0) {
+
+    String message = Serial.readStringUntil('\n');
+
+    message.trim();
+
+    if (message == "IMPORT") {
+
+      lcd.clear();
+
+      lcd.setCursor(0, 0);
+
+      lcd.print("Please Import");
+
+      lcd.setCursor(0, 1);
+
+      lcd.print("File...");
+
+    } 
+
+    else if (message == "LOADING") {
+
+      lcd.clear();
+
+      lcd.setCursor(0, 0);
+
+      lcd.print("Loading...");
+
+    } 
+
+    else if (message.startsWith("PROGRESS")) {
+
+      int progress = message.substring(9).toInt(); // Extract progress value
+
+      lcd.clear();
+
+      lcd.setCursor(0, 0);
+
+      lcd.print("Processing...");
+
+      updateProgressBar(progress);
+
+    } 
+
+    else if (message == "COMPLETED") {
+
+      lcd.clear();
+
+      lcd.setCursor(0, 0);
+
+      lcd.print("Finished,");
+
+      lcd.setCursor(0, 1);
+
+      lcd.print("Remove Sample");
+
+    }
+
+  }
+
+}
+ 
+void updateProgressBar(int progress) {
+
+  lcd.setCursor(0, 1);
+
+  int bars = map(progress, 0, 100, 0, 16); // Map progress to 16 LCD columns
+
+  for (int i = 0; i < bars; i++) {
+
+    lcd.print("#"); // Simulating a progress bar with '#' character
+
+  }
+
+  for (int i = bars; i < 16; i++) { 
+
+    lcd.print(" ");  // Fill remaining spaces with blanks
+
+  }
+if (Serial.available() > 0) {
+
+    String message = Serial.readStringUntil('\n');
+
+    message.trim();
+
+    if (message == "IMPORT") {
+
+      lcd.clear();
+
+      lcd.setCursor(0, 0);
+
+      lcd.print("Please Import");
+
+      lcd.setCursor(0, 1);
+
+      lcd.print("File...");
+
+    } 
+}
+
+ 
