@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3D Printer Control</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>🖨️ 3D Printer Control Panel</h1>
+
+    <!-- Connection Status -->
+    <div class="status">
+      <strong>Status:</strong>
+      {% if status.connected %}
+        <span style="color: green;">Connected</span>
+      {% else %}
+        <span style="color: red;">Not Connected</span>
+      {% endif %}
+    </div>
+
+    <!-- Connect to Printer -->
+    <form method="post" action="/connect">
+      <label for="port">COM Port</label>
+      <select name="port" id="port" required>
+        {% for port in ports %}
+          <option value="{{ port }}">{{ port }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit">🔌 Connect</button>
+    </form>
+
+    <hr />
+
+    <!-- Upload G-code -->
+    <form method="post" action="/upload" enctype="multipart/form-data" id="uploadForm">
+      <label for="gcode">Upload G-code File</label>
+      <input type="file" name="gcode" id="gcode" accept=".gcode,.txt" required />
+      <button type="submit" id="uploadBtn">📤 Upload</button>
+      <div id="uploadStatus" class="upload-status"></div>
+    </form>
+
+    {% if gcode_commands %}
+    <div class="info">
+      <p><strong>G-code commands loaded:</strong> {{ gcode_commands|length }}</p>
+    </div>
+    {% endif %}
+
+    <hr />
+
+    <!-- Placeholder for future buttons -->
+    <form method="post" action="/print">
+      <button type="submit">▶️ Start Print</button>
+    </form>
+
+    <a href="/visualize" class="button-link">📊 Visualize G-code</a>
+  </div>
+
+  <script>
+    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const button = document.getElementById('uploadBtn');
+      const status = document.getElementById('uploadStatus');
+      const fileInput = document.getElementById('gcode');
+      const originalButtonText = button.textContent;
+      
+      // Show loading state
+      button.disabled = true;
+      button.textContent = "Uploading...";
+      status.textContent = "";
+      status.style.color = "inherit";
+
+      try {
+        const formData = new FormData(form);
+        const response = await fetch('/upload', {
+          method: 'POST',
+          body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+          status.textContent = `Successfully uploaded ${result.count} commands!`;
+          status.style.color = "green";
+          // Refresh after short delay to show success message
+          setTimeout(() => window.location.reload(), 1000);
+        } else {
+          status.textContent = `Error: ${result.message}`;
+          status.style.color = "red";
+          fileInput.value = ""; // Reset file input
+        }
+      } catch (err) {
+        status.textContent = `Network error: ${err.message}`;
+        status.style.color = "red";
+      } finally {
+        // Reset button
+        button.disabled = false;
+        button.textContent = originalButtonText;
+      }
+    });
+  </script>
+</body>
+</html>

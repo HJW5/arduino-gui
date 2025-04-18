@@ -1,0 +1,166 @@
+/* Base Styles */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f7fa;
+  margin: 0;
+  padding: 20px;
+  color: #333;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 25px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #2c3e50;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 25px 0;
+}
+
+/* Status Indicators */
+.status {
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+/* Form Elements */
+form {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+select, input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f8f9fa;
+  font-size: 16px;
+}
+
+select:focus, input[type="file"]:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* File Input Customization */
+input[type="file"] {
+  padding: 8px;
+  border: 2px dashed #ddd;
+  background-color: #f8f9fa;
+  transition: all 0.3s ease;
+}
+
+input[type="file"]:hover {
+  border-color: #3498db;
+  background-color: #eaf2f8;
+}
+
+input[type="file"]::file-selector-button {
+  padding: 8px 12px;
+  background: #ecf0f1;
+  border: 1px solid #bdc3c7;
+  border-radius: 4px;
+  margin-right: 10px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background: #d6eaf8;
+  border-color: #3498db;
+}
+
+/* Buttons */
+button, .button-link {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  text-align: center;
+}
+
+button:hover, .button-link:hover {
+  background-color: #2980b9;
+  transform: translateY(-1px);
+}
+
+button[disabled] {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Specific Button Styles */
+#uploadBtn {
+  width: 100%;
+  margin-top: 5px;
+}
+
+.button-link {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* Status Messages */
+.info {
+  padding: 10px;
+  background-color: #e8f8f5;
+  border-radius: 5px;
+  margin: 15px 0;
+  color: #27ae60;
+}
+
+.upload-status {
+  margin-top: 10px;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  min-height: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .container {
+    padding: 15px;
+  }
+  
+  h1 {
+    font-size: 24px;
+  }
+  
+  button, .button-link {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+}
